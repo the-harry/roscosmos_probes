@@ -16,4 +16,11 @@ class Probe < ApplicationRecord
   def current_position
     { x: x, y: y, direction: direction }
   end
+
+  def face
+    return '/\\' if direction == 'C'
+    return '>' if direction == 'D'
+    return '<' if direction == 'E'
+    return '\/' if direction == 'B'
+  end
 end

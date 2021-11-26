@@ -1,7 +1,7 @@
 <%= link_to('See all probes', root_path) %>
 
 <center>
-  <table>
+  <table id="table">
     <tr>
       <td id="5_1"></td>
       <td id="5_2"></td>
@@ -31,11 +31,28 @@
       <td id="2_5"></td>
     </tr>
     <tr>
-      <td id="1_1">/\</td>
+      <td id="1_1"></td>
       <td id="1_2"></td>
       <td id="1_3"></td>
       <td id="1_4"></td>
       <td id="1_5"></td>
     </tr>
   </table>
+  <span id="position" data-position=<%= "#{@probe.x + 1}_#{@probe.y + 1}" %>></span>
+  <span id="face" data-face=<%= "#{@probe.face}" %>></span>
 </center>
+
+<script>
+  var table = document.getElementById("table"),
+      cells = table.getElementsByTagName("td");
+
+  for (let i = 0; i < cells.length; i++) {
+    cells[i].innerHTML = "";
+  }
+
+  var coordinates = document.getElementById('position').getAttribute('data-position');
+  var currentCell = document.getElementById(coordinates);
+
+  var face = document.getElementById('face').getAttribute('data-face');
+  currentCell.innerHTML = face;
+</script>
