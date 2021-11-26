@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+    command: bundle exec rails s -b 0.0.0.0 -p 9000
+    volumes:
+      - .:/roscosmos_probes
+    depends_on:
+      - postgres
+    ports:
+      - 80:9000
+    tty: true
+    stdin_open: true
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres

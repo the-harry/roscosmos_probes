@@ -1,0 +1,40 @@
+AllCops:
+  TargetRubyVersion: 3.0.2
+  Exclude:
+    - bin/**/*
+    - db/**/*
+  NewCops: enable
+
+Metrics/MethodLength:
+  Max: 20
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: true
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/**/*
+
+Style/RegexpLiteral:
+  AllowInnerSlashes: true
+
+Metrics/AbcSize:
+  Enabled: true
+
+Metrics/ClassLength:
+  Enabled: true
+
+Layout/LineLength:
+  Enabled: true
