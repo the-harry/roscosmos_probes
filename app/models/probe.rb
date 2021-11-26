@@ -12,4 +12,8 @@ class Probe < ApplicationRecord
   def travel_home!
     update!(x: 0, y: 0, direction: 'C')
   end
+
+  def current_position
+    { x: x, y: y, direction: direction }
+  end
 end

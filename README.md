@@ -92,8 +92,25 @@ When you are too far way from home and just need a teleport you may send a post 
 
 ```bash
 curl -H 'Content-Type: application/json' \
-     -d '{"id": "9ad4dc1b-ae78-43a9-8a91-9ae2d019ebac"}' \
+     -d '{"id": "ID"}' \
      http://localhost/api/v1/probe/travel_home
+```
+
+* Possible responses:
+
+  - 200 - Successfully teleported
+  - 404 - Can't find probe
+
+### PROBE CURRENT POSITION
+
+Can't find yourself in the darkness of the universe? I got your back.
+
+* `verb` - `GET`
+* `endpoint` - `/api/v1/probe/current_position/:ID`
+
+```bash
+curl -H 'Content-Type: application/json' \
+     http://localhost/api/v1/probe/current_position/ID
 ```
 
 * Possible responses:

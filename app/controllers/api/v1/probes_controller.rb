@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Api::V1::ProbesController < Api::V1::ApiController
+  before_action :find_probe, only: %i[travel_home current_position]
+
   def create
     probe = Probe.create!(probe_params)
 
@@ -8,15 +10,22 @@ class Api::V1::ProbesController < Api::V1::ApiController
   end
 
   def travel_home
-    probe = Probe.find(params[:id])
-    probe.travel_home!
+    @probe.travel_home!
 
-    render json: probe, status: :ok
+    render json: @probe, status: :ok
+  end
+
+  def current_position
+    render json: @probe.current_position, status: :ok
   end
 
   private
 
   def probe_params
     params.permit(:name, :cosmonaut, :x, :y, :direction)
+  end
+
+  def find_probe
+    @probe = Probe.find(params[:id])
   end
 end

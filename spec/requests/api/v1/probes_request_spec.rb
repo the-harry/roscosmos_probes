@@ -100,4 +100,31 @@ RSpec.describe 'Api::V1::ProbesController', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/probe/current_position/:ID' do
+    context 'when the id is found' do
+      let!(:probe) { create(:probe) }
+
+      before do
+        get "/api/v1/probe/current_position/#{probe.id}", headers: headers
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns the coordinates' do
+        expect(JSON.parse(response.body).values)
+          .to contain_exactly(probe.x, probe.y, probe.direction)
+      end
+    end
+
+    context 'when it fails to find the probe' do
+      it 'returns status code 404' do
+        get '/api/v1/probe/current_position/foobar', headers: headers
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end
