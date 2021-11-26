@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :probe do
-    name { "MyString" }
-    cosmonaut { "MyString" }
-    x { 1 }
-    y { 1 }
-    direction { "MyString" }
+    name { 'Sputnik 2' }
+    cosmonaut { 'Laika' }
+    x { 0 }
+    y { 0 }
+    direction { 'C' }
   end
 end

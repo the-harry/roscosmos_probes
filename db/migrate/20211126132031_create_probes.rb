@@ -3,9 +3,9 @@ class CreateProbes < ActiveRecord::Migration[6.1]
     create_table :probes, id: :uuid do |t|
       t.string :name
       t.string :cosmonaut
-      t.integer :x
-      t.integer :y
-      t.string :direction
+      t.integer :x, default: 0
+      t.integer :y, default: 0
+      t.string :direction, default: 'C'
 
       t.timestamps
     end
