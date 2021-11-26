@@ -16,7 +16,7 @@ gem 'sass-rails', '>= 6'
 gem 'webpacker', '~> 5.0'
 
 group :development, :test do
-  gem 'brakeman', '~> 4.5.0'
+  gem 'brakeman'
   gem 'pry-rails'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
