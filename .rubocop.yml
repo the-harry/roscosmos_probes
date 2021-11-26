@@ -22,6 +22,8 @@ Style/DoubleNegation:
 
 Metrics/BlockLength:
   Enabled: true
+  Exclude:
+    - spec/**/*
 
 Lint/AmbiguousBlockAssociation:
   Exclude:

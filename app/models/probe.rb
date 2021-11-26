@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Probe < ApplicationRecord
-  DIRECTIONS = ['E', 'D', 'C', 'B'].freeze
+  DIRECTIONS = %w[E D C B].freeze
 
   validates :name, presence: true
   validates_uniqueness_of :name
