@@ -1,0 +1,125 @@
+name: Rails pipeline
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0.2
+
+    - uses: actions/cache@v2
+      env:
+        cache-name: cache-rails-deps
+      with:
+        path: /usr/local/bundle
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+                    ${{ runner.os }}-build-${{ env.cache-name }}-
+                    ${{ runner.os }}-build-
+                    ${{ runner.os }}-
+
+    - name: Build deps
+      run: |
+        gem install bundler
+        bundle install
+
+    - name: Run Linter (Rubocop)
+      run: |
+        bundle exec rubocop --format json -o report.json
+
+    - name: Check autoloader (zeitwerk)
+      run: |
+        yarn install --check-files
+        bin/rails zeitwerk:check
+
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0.2
+
+    - uses: actions/cache@v2
+      env:
+        cache-name: cache-rails-deps
+      with:
+        path: /usr/local/bundle
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+                    ${{ runner.os }}-build-${{ env.cache-name }}-
+                    ${{ runner.os }}-build-
+                    ${{ runner.os }}-
+
+    - name: Build deps
+      run: |
+        gem install bundler
+        bundle install
+
+    - name: Run scan (Brakeman)
+      run: |
+        brakeman -A --color -o /dev/stdout -o brakeman.html --no-exit-on-warn --no-exit-on-error
+
+    - name: Publish Brakeman report
+      uses: actions/upload-artifact@v2
+      with:
+        name: brakeman_report
+        path: brakeman.html
+
+  test:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgresql://user:password@localhost/roscosmos_probes_test
+
+    services:
+      db:
+        image: postgres
+        ports: ['5432:5432']
+        env:
+          POSTGRES_DB: roscosmos_probes_test
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0.2
+
+    - uses: actions/cache@v2
+      env:
+        cache-name: cache-rails-deps
+      with:
+        path: /usr/local/bundle
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+                    ${{ runner.os }}-build-${{ env.cache-name }}-
+                    ${{ runner.os }}-build-
+                    ${{ runner.os }}-
+
+    - name: Build deps
+      run: |
+        gem install bundler
+        bundle install
+
+    - name: Run specs
+      run: |
+        bundle exec rails webpacker:install
+        bundle exec rails db:create db:migrate
+        bundle exec rspec --fail-fast
