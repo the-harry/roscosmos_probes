@@ -66,4 +66,38 @@ RSpec.describe 'Api::V1::ProbesController', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/probe/travel_home' do
+    let!(:probe) { create(:probe) }
+
+    context 'when the request is valid' do
+      let(:params) { { id: probe.id }.to_json }
+
+      it 'returns status code 200' do
+        post '/api/v1/probe/travel_home', params: params, headers: headers
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'travels back to home' do
+        post '/api/v1/probe/travel_home', params: params, headers: headers
+
+        expect(Probe.last.x).to eq(0)
+        expect(Probe.last.y).to eq(0)
+        expect(Probe.last.direction).to eq('C')
+      end
+    end
+
+    context 'when the probe dont exists' do
+      let(:params) { { id: 1 }.to_json }
+
+      before do
+        post '/api/v1/probe/travel_home', params: params, headers: headers
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end
