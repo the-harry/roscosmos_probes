@@ -5,9 +5,13 @@ class Probe < ApplicationRecord
 
   validates :name, presence: true
   validates_uniqueness_of :name
-  validates :x, numericality: { greater_than_or_equal_to: 0 }
-  validates :y, numericality: { greater_than_or_equal_to: 0 }
+  validates :x, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :x, numericality: { less_than_or_equal_to: 5, only_integer: true }
+  validates :y, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :y, numericality: { less_than_or_equal_to: 5, only_integer: true }
   validates :direction, inclusion: { in: DIRECTIONS }
+
+  after_commit :update_gps_location, on: :update
 
   def travel_home!
     update!(x: 0, y: 0, direction: 'C')
@@ -22,5 +26,14 @@ class Probe < ApplicationRecord
     return '>' if direction == 'D'
     return '<' if direction == 'E'
     return '\/' if direction == 'B'
+  end
+
+  private
+
+  def update_gps_location
+    ActionCable.server.broadcast(
+      "probe_channel_#{id}",
+      { probe_id: id, coordinates: "#{x + 1}_#{y + 1}", face: face }
+    )
   end
 end
