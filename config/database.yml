@@ -17,4 +17,4 @@ test:
 
 production:
   <<: *default
-  database: roscosmos_probes_production
+  database: <%= ENV['DB_NAME'] %>
