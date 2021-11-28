@@ -1,4 +1,4 @@
-# dc.saas.food
+# Roscosmos Probes
 
 ## Stack
 
@@ -6,13 +6,13 @@
 - `Rails 6.1.3`
 - `Postgres 13.1-alpine`
 
-## Production URLs
+## Production URL
 
-- [roscosmos.ru](roscosmos.ru)
+- [https://roscosmos-probes-credere.gigalixirapp.com/](https://roscosmos-probes-credere.gigalixirapp.com/)
 
 ## About
 
-This project is created to manage Roscosmos probes.
+This project is created to manage Roscosmos probes providing an easy way to control the probes remotely and also features an accurate GPS tracking system.
 
 ## Getting started
 
