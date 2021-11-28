@@ -31,4 +31,32 @@ RSpec.describe Probe, type: :model do
       expect { subject }.to change { probe.reload.direction }.from('E').to('C')
     end
   end
+
+  describe '#current_position' do
+    let(:probe) { create(:probe, x: 3, y: 1, direction: 'E') }
+
+    subject { probe.current_position }
+
+    it 'returns the current probe location' do
+      is_expected.to eq({ x: 3, y: 1, direction: 'E' })
+    end
+  end
+
+  describe '#face' do
+    it 'returns the up probe animation' do
+      expect(build(:probe, x: 1, y: 1, direction: 'C').face).to eq('/\\')
+    end
+
+    it 'returns the down probe animation' do
+      expect(build(:probe, x: 1, y: 1, direction: 'B').face).to eq('\/')
+    end
+
+    it 'returns the right probe animation' do
+      expect(build(:probe, x: 1, y: 1, direction: 'D').face).to eq('>')
+    end
+
+    it 'returns the left probe animation' do
+      expect(build(:probe, x: 1, y: 1, direction: 'E').face).to eq('<')
+    end
+  end
 end
