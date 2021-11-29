@@ -1,2 +1,2 @@
-web: bin/rails server -p 4000 -e production -b 0.0.0.0
+web: RAILS_ENV=production bundle exec puma -C config/puma.rb -p 4000
 release: bundle exec rake db:migrate
