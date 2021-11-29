@@ -117,3 +117,22 @@ curl -H 'Content-Type: application/json' \
 
   - 200 - Successfully teleported
   - 404 - Can't find probe
+
+### MOVE THE PROBE
+
+Send a sequence of commands to be executed.
+
+* `verb` - `POST`
+* `endpoint` - `/api/v1/probe/run_commands`
+
+```bash
+curl -H 'Content-Type: application/json' \
+     -d '{"id": "ID", "commands": ["GE", "M", "M", "M", "GD", "M", "M"]}' \
+     http://localhost/api/v1/probe/run_commands
+```
+
+* Possible responses:
+
+  - 200 - Successfully moved the probe
+  - 404 - Can't find probe
+  - 422 - Can't move to this position
