@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   namespace :api, constraints: { format: 'json' } do
     namespace :v1 do
       resource :probe, only: %i[create show] do
-        post '/travel_home', to: 'probes#travel_home'
         get '/current_position/:id', to: 'probes#current_position'
+        post '/travel_home', to: 'probes#travel_home'
+        post '/run_commands', to: 'probes#run_commands'
       end
     end
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::ProbesController < Api::V1::ApiController
-  before_action :find_probe, only: %i[travel_home current_position]
+  before_action :find_probe, only: %i[travel_home current_position run_commands]
 
   def create
     probe = Probe.create!(probe_params)
@@ -17,6 +17,12 @@ class Api::V1::ProbesController < Api::V1::ApiController
 
   def current_position
     render json: @probe.current_position, status: :ok
+  end
+
+  def run_commands
+    output = CommandsExecutorService.call(@probe, params[:commands])
+
+    render json: output, status: :ok
   end
 
   private

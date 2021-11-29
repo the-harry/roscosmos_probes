@@ -127,4 +127,50 @@ RSpec.describe 'Api::V1::ProbesController', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/probe/run_commands' do
+    context 'when the id is found' do
+      let!(:probe) { create(:probe) }
+      let(:params) do
+        { id: probe.id, commands: %w[GE M M M GD M M] }.to_json
+      end
+
+      before do
+        post '/api/v1/probe/run_commands', params: params, headers: headers
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns the coordinates' do
+        probe.reload
+
+        expect(probe.current_position).to eq({ x: 3, y: 2, direction: 'D' })
+      end
+    end
+
+    context 'when it fails to find the probe' do
+      let(:params) { { id: 1 }.to_json }
+
+      it 'returns status code 404' do
+        post '/api/v1/probe/run_commands', params: params, headers: headers
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'when it fails some AR validation' do
+      let!(:probe) { create(:probe) }
+      let(:params) do
+        { id: probe.id, commands: %w[GD M M] }.to_json
+      end
+
+      it 'returns status code 422' do
+        post '/api/v1/probe/run_commands', params: params, headers: headers
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
 end
