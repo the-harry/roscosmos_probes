@@ -9,10 +9,10 @@ class Probe < ApplicationRecord
     b: { ge: 'D', gd: 'E' }
   }.freeze
   MOVEMENTS_MAPPING = {
-    e: Proc.new { |x, y| [x, (y - 1)] },
-    d: Proc.new { |x, y| [x, (y + 1)] },
-    c: Proc.new { |x, y| [(x + 1), y] },
-    b: Proc.new { |x, y| [(x - 1), y] }
+    e: proc { |x, y| [x, (y - 1)] },
+    d: proc { |x, y| [x, (y + 1)] },
+    c: proc { |x, y| [(x + 1), y] },
+    b: proc { |x, y| [(x - 1), y] }
   }.freeze
 
   validates :name, presence: true
