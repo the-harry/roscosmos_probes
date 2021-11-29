@@ -15,7 +15,7 @@ SimpleCov.start 'rails' do
   add_filter '/vendor'
 end
 
-SimpleCov.minimum_coverage 70
+SimpleCov.minimum_coverage 95
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
