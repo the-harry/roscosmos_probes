@@ -21,6 +21,37 @@ describe 'DashboardsController' do
         expect(page.body).to have_content(probe.name)
       end
 
+      it 'show the details link' do
+        expect(page.body).to have_link('View GPS details')
+      end
+    end
+  end
+
+  describe '#show' do
+    context 'it tracks GPS position' do
+      let!(:probe) { create(:probe, x: 1, y: 1, direction: 'C') }
+
+      before do
+        visit root_path
+        click_on 'View GPS details'
+      end
+
+      it 'have probe id as data attribute' do
+        expect(page.body).to include(probe.id)
+      end
+
+      it 'have probe position as data attribute' do
+        expect(page.body).to include('1_1')
+      end
+
+      it 'have probe face as data attribute' do
+        expect(page.body).to include(probe.face)
+      end
+
+      it 'show the name of the probe' do
+        expect(page.body).to have_content(probe.name)
+      end
+
       it 'show the name of the cosmonaut' do
         expect(page.body).to have_content(probe.cosmonaut)
       end
@@ -35,29 +66,6 @@ describe 'DashboardsController' do
 
       it 'show the probe direction' do
         expect(page.body).to have_content(probe.direction)
-      end
-    end
-  end
-
-  describe '#show' do
-    context 'it tracks GPS position' do
-      let!(:probe) { create(:probe, x: 1, y: 1, direction: 'C') }
-
-      before do
-        visit root_path
-        click_on 'Track GPS'
-      end
-
-      it 'have probe id as data attribute' do
-        expect(page.body).to include(probe.id)
-      end
-
-      it 'have probe position as data attribute' do
-        expect(page.body).to include('1_1')
-      end
-
-      it 'have probe face as data attribute' do
-        expect(page.body).to include(probe.face)
       end
     end
   end

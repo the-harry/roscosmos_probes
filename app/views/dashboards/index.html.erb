@@ -9,12 +9,8 @@
     <% @probes.each do |probe| %>
       <div>
         <h3>Name: <%= probe.name %></h3>
-        <h3>Cosmonaut: <%= probe.cosmonaut %></h3>
-        <h3>X: <%= probe.x %></h3>
-        <h3>Y: <%= probe.y %></h3>
-        <h3>Direction: <%= probe.direction %></h3>
 
-        <%= link_to('Track GPS', dashboards_path(id: probe.id)) %>
+        <%= link_to('View GPS details', dashboards_path(id: probe.id)) %>
       </div>
 
       <hr>
