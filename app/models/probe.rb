@@ -14,7 +14,7 @@ class Probe < ApplicationRecord
   after_commit :update_gps_location, on: :update
 
   def travel_home!
-    update!(x: 0, y: 0, direction: 'C')
+    update!(x: 0, y: 0, direction: 'D')
   end
 
   def current_position

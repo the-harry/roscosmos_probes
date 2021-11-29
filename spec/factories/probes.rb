@@ -6,6 +6,6 @@ FactoryBot.define do
     cosmonaut { 'Laika' }
     x { 0 }
     y { 0 }
-    direction { 'C' }
+    direction { 'D' }
   end
 end

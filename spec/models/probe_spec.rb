@@ -28,7 +28,7 @@ RSpec.describe Probe, type: :model do
     end
 
     it 'resets the probe direction' do
-      expect { subject }.to change { probe.reload.direction }.from('E').to('C')
+      expect { subject }.to change { probe.reload.direction }.from('E').to('D')
     end
   end
 

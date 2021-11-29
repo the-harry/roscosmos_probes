@@ -12,7 +12,7 @@ RSpec.describe 'Api::V1::ProbesController', type: :request do
         cosmonaut: 'Harry',
         x: 0,
         y: 0,
-        direction: 'C'
+        direction: 'D'
       }.to_json
     end
 
@@ -55,7 +55,7 @@ RSpec.describe 'Api::V1::ProbesController', type: :request do
           cosmonaut: 'Harry',
           x: -1,
           y: -2,
-          direction: 'C'
+          direction: 'D'
         }.to_json
       end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Api::V1::ProbesController', type: :request do
 
         expect(Probe.last.x).to eq(0)
         expect(Probe.last.y).to eq(0)
-        expect(Probe.last.direction).to eq('C')
+        expect(Probe.last.direction).to eq('D')
       end
     end
 
