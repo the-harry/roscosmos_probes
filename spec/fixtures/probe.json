@@ -1,7 +1,7 @@
 {
-   "name": "Sputnik 1",
-   "cosmonaut": "Harry",
+   "name": "Sputnik 2",
+   "cosmonaut": "Laika",
    "x": 0,
    "y": 0,
-   "direction": "C"
+   "direction": "D"
 }
